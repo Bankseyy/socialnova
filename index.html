@@ -126,20 +126,39 @@ a{ color:inherit; }
   overflow:hidden;
   flex:0 0 auto;
 }
-.mono-sq .sn{
-  font-family:var(--font-display);
-  font-weight:900;
-  font-size:.6em;
-  line-height:1;
-  letter-spacing:-0.04em;
-  transform:translateY(-.02em);
+/* your uploaded logo fills the tile */
+.mono-sq img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
-.mono-sq .mk-star{
-  position:absolute;
-  top:.09em; left:.09em;
-  width:.13em; height:.13em;
-  fill:currentColor;
+/* ---------- portrait (About) ---------- */
+.portrait{
+  margin:clamp(26px,3.5vh,42px) 0 0;
+  max-width:min(360px,100%);
 }
+.portrait img{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  filter:grayscale(1) contrast(1.05);
+  border:1px solid var(--hair-light);
+}
+.portrait figcaption{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+  font-family:var(--font-label);
+  font-stretch:var(--w-label);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--graphite);
+}
+.portrait figcaption svg{ width:9px; height:9px; fill:currentColor; flex:0 0 auto; }
 /* the nova sweep */
 .mono-sq::after{
   content:"";
@@ -486,8 +505,7 @@ a{ color:inherit; }
   <div class="wrap head-in">
     <a class="head-mark" href="#top" aria-label="Social Nova, back to top">
       <span class="mono-sq" aria-hidden="true">
-        <svg class="mk-star" viewBox="0 0 24 24"><use href="#nova"/></svg>
-        <span class="sn">sn</span>
+        <img src="logo.png" alt="">
       </span>
       <b>Social Nova</b>
     </a>
@@ -506,8 +524,7 @@ a{ color:inherit; }
   <section class="hero">
     <div class="wrap">
       <div class="mono-sq hero-mark" aria-hidden="true">
-        <svg class="mk-star" viewBox="0 0 24 24"><use href="#nova"/></svg>
-        <span class="sn">sn</span>
+        <img src="logo.png" alt="">
       </div>
       <h1>Content that earns<em>the share.</em></h1>
       <div class="hero-foot">
@@ -546,6 +563,10 @@ a{ color:inherit; }
       <div>
         <p class="eyebrow"><svg viewBox="0 0 24 24"><use href="#nova"/></svg>Who you're hiring</p>
         <h2 class="h-sect">One person.<br>No layers.</h2>
+        <figure class="portrait">
+          <img src="me.jpg" alt="Marcus Banks" onerror="this.closest('figure').style.display='none'">
+          <figcaption><svg viewBox="0 0 24 24"><use href="#nova"/></svg>Marcus Banks · Liverpool</figcaption>
+        </figure>
       </div>
       <div class="prose">
         <p><strong>I'm Marcus Banks.</strong> I've spent my career in newsrooms — the Manchester Evening News, the Liverpool ECHO, the Daily Mirror and SPORTbible as part of LADbible Group. I've built years of social media experience first-hand, managing some of the biggest pages on the planet. My formats and ideas carried millions of impressions a month and generated hundreds of thousands in revenue.</p>
