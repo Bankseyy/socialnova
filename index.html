@@ -126,12 +126,15 @@ a{ color:inherit; }
   overflow:hidden;
   flex:0 0 auto;
 }
-/* your uploaded logo fills the tile */
+/* your uploaded logo fills the tile.
+   --logo-zoom compensates for white padding baked into the PNG —
+   raise it if the mark looks small in its box, lower it if it clips. */
 .mono-sq img{
   width:100%;
   height:100%;
   object-fit:contain;
   display:block;
+  transform:scale(var(--logo-zoom, 1.45));
 }
 /* ---------- portrait (About) ---------- */
 .portrait{
@@ -302,6 +305,9 @@ a{ color:inherit; }
 }
 @media (max-width:900px){ .split{ grid-template-columns:1fr; } }
 
+/* About: centre the bio against the heading + portrait column */
+#about .split{ align-items:center; }
+
 .prose p{ margin:0 0 18px; max-width:56ch; font-size:clamp(16px,1.15vw,18px); }
 .prose p:last-child{ margin-bottom:0; }
 .prose strong{ font-weight:700; }
@@ -441,7 +447,7 @@ a{ color:inherit; }
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:clamp(32px,6vw,90px);
-  align-items:end;
+  align-items:start;
 }
 @media (max-width:900px){ .contact-in{ grid-template-columns:1fr; align-items:start; } }
 .mailto-big{
@@ -458,7 +464,7 @@ a{ color:inherit; }
 .mailto-big:hover{ border-color:currentColor; }
 
 .contact-list{
-  list-style:none; margin:0; padding:0;
+  list-style:none; margin:clamp(24px,3vh,36px) 0 0; padding:0;
   font-family:var(--font-label);
   font-stretch:var(--w-label);
   font-size:11px; letter-spacing:.12em; text-transform:uppercase;
@@ -467,6 +473,53 @@ a{ color:inherit; }
 .contact-list li{ padding-block:12px; border-bottom:1px solid var(--hair-dark); }
 .contact-list a{ text-decoration:none; }
 .contact-list a:hover{ color:var(--paper); }
+
+/* ---------- contact form ---------- */
+
+.contact-form{ display:flex; flex-direction:column; gap:26px; }
+.contact-form label{
+  display:flex; flex-direction:column; gap:9px;
+  font-family:var(--font-label);
+  font-stretch:var(--w-label);
+  font-size:10px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:#9C9EA6;
+}
+.contact-form input,
+.contact-form textarea{
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--hair-dark);
+  border-radius:0;
+  color:var(--paper);
+  font-family:var(--font-body);
+  font-stretch:var(--w-body);
+  font-size:16px;
+  line-height:1.5;
+  padding:10px 0;
+  transition:border-color .22s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus{
+  outline:none;
+  border-bottom-color:var(--paper);
+}
+.contact-form textarea{ resize:vertical; min-height:120px; }
+.contact-form .btn{ align-self:flex-start; margin-top:4px; }
+.form-hp{ display:none; }
+.form-status{
+  display:none;
+  margin:0;
+  padding:14px 18px;
+  border:1px solid var(--hair-dark);
+  font-family:var(--font-label);
+  font-stretch:var(--w-label);
+  font-size:11px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--paper);
+}
+.form-status.is-on{ display:block; }
+.form-status.is-ok{ border-color:var(--paper); }
 
 /* ---------- footer ---------- */
 
@@ -712,13 +765,35 @@ a{ color:inherit; }
       <div>
         <p class="eyebrow"><svg viewBox="0 0 24 24"><use href="#nova"/></svg>Start a project</p>
         <h2 class="h-sect">Tell me what<br>you're growing.</h2>
-        <a class="mailto-big" href="mailto:hello@socialnova.co.uk?subject=Project%20enquiry">hello@socialnova.co.uk</a>
+        <a class="mailto-big" href="mailto:marcus@socialnova.co.uk?subject=Project%20enquiry">marcus@socialnova.co.uk</a>
+        <ul class="contact-list">
+          <li>Based in Liverpool — working with clients anywhere</li>
+          <li>Replies within one working day</li>
+          <li><a href="https://www.instagram.com/socialnovauk/">Instagram</a> · <a href="https://www.linkedin.com/company/social-nova-uk">LinkedIn</a>
+        </ul>
       </div>
-      <ul class="contact-list">
-        <li>Based in Liverpool — working with clients anywhere</li>
-        <li>Replies within one working day</li>
-        <li><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">X</a></li>
-      </ul>
+
+      <!-- ============================================================
+           FORMSPREE: replace YOUR_FORM_ID below with your form's ID
+           from formspree.io (it looks like: xqazwsxe).
+           ============================================================ -->
+      <form class="contact-form" action="https://formspree.io/f/mjybwdgb" method="POST">
+        <label>
+          Name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>
+          What are you growing?
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <input class="form-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+        <p class="form-status" role="status" aria-live="polite"></p>
+        <button class="btn btn-solid" type="submit">Send it over</button>
+      </form>
     </div>
   </section>
 
@@ -734,6 +809,41 @@ a{ color:inherit; }
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* contact form — submit in place, no redirect */
+var form = document.querySelector('.contact-form');
+if (form) {
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var status = form.querySelector('.form-status');
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Sending\u2026';
+    fetch(form.action, {
+      method:'POST',
+      body:new FormData(form),
+      headers:{ 'Accept':'application/json' }
+    }).then(function(res){
+      status.classList.add('is-on');
+      if (res.ok) {
+        status.classList.add('is-ok');
+        status.textContent = 'Sent \u2014 I\u2019ll reply within one working day.';
+        form.reset();
+        btn.textContent = 'Sent';
+      } else {
+        status.textContent = 'That didn\u2019t send \u2014 try again, or email me directly.';
+        btn.disabled = false;
+        btn.textContent = 'Send it over';
+      }
+    }).catch(function(){
+      status.classList.add('is-on');
+      status.textContent = 'That didn\u2019t send \u2014 try again, or email me directly.';
+      btn.disabled = false;
+      btn.textContent = 'Send it over';
+    });
+  });
+}
+
 var els = document.querySelectorAll('.rise');
 if ('IntersectionObserver' in window) {
   var io = new IntersectionObserver(function(entries){
