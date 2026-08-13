@@ -24,6 +24,9 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0D0D0F">
 
+<!-- Lemon Squeezy overlay checkout — keeps buyers on your page -->
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+
 <!-- ============================================================
      ADOBE FONTS — PASTE YOUR EMBED CODE ON THE LINE BELOW.
      fonts.adobe.com > Apotek Variable > Add to Web Project.
@@ -485,6 +488,63 @@ a{ color:inherit; }
   fill:currentColor;
   flex:0 0 auto;
 }
+/* ---------- shop ---------- */
+
+.grid-shop{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  gap:clamp(14px,1.6vw,22px);
+  margin-top:clamp(36px,5vh,60px);
+}
+.shop-tile{
+  position:relative;
+  max-width:420px;
+  border:1px solid var(--hair-light);
+  background:var(--paper);
+  padding:clamp(26px,2.6vw,34px);
+  padding-top:clamp(48px,4.5vw,60px);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.shop-img{
+  width:100%;
+  aspect-ratio:1652/1240;   /* matches Lemon Squeezy cover size — no crop */
+  object-fit:cover;
+  display:block;
+  border:0;
+  background:transparent;
+  margin-bottom:6px;
+}
+.shop-tile h3{
+  font-family:var(--font-display);
+  font-stretch:var(--w-display);
+  font-weight:800;
+  font-size:clamp(25px,2.2vw,33px);
+  line-height:.96;
+  text-transform:uppercase;
+  margin:0;
+  max-width:15ch;
+}
+.shop-tile p{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--graphite);
+}
+.shop-price{
+  margin-top:auto;
+  padding-top:16px;
+  font-family:var(--font-display);
+  font-stretch:var(--w-display);
+  font-weight:800;
+  font-size:clamp(28px,2.6vw,40px);
+  line-height:1;
+}
+.shop-tile .btn{ align-self:flex-start; }
+.btn-ink{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.btn-ink:hover{ background:transparent; color:var(--ink); }
+
 .contact-list{
   list-style:none; margin:clamp(24px,3vh,36px) 0 0; padding:0;
   font-family:var(--font-label);
@@ -587,6 +647,7 @@ a{ color:inherit; }
     </a>
     <nav class="head-nav" aria-label="Primary">
       <a class="hide-sm" href="#services">Services</a>
+      <a class="hide-sm" href="#shop">Shop</a>
       <a class="hide-sm" href="#process">Process</a>
       <a class="hide-sm" href="#about">About</a>
       <a class="is-cta" href="#contact">Start a project</a>
@@ -746,6 +807,41 @@ a{ color:inherit; }
           <h3>Report</h3>
           <p>Monthly numbers in plain English — reach, shares, follower growth, and what I'd change next month. No dashboard you have to decode.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHOP ============
+       Each Buy button needs the product's Lemon Squeezy checkout URL.
+       In Lemon Squeezy: Products > your product > Share > copy the
+       checkout link. Paste it into href, keeping ?embed=1 on the end
+       so the overlay opens instead of a new tab.
+       Delete any tile you're not using — the grid reflows.
+  -->
+  <section class="sect sect-mist" id="shop">
+    <div class="wrap rise">
+      <p class="eyebrow"><svg viewBox="0 0 24 24"><use href="#nova"/></svg>Shop</p>
+      <h2 class="h-sect">Built once.<br>Yours to keep.</h2>
+      <p class="lede muted">Template systems and toolkits, ready to drop into your own workflow.</p>
+
+      <div class="grid-shop">
+        <article class="shop-tile">
+          <svg class="card-star" viewBox="0 0 24 24"><use href="#nova"/></svg>
+          <span class="card-no">01</span>
+
+          <img class="shop-img" src="product-01.png" alt="Single PSD template preview"
+               onerror="this.style.display='none'">
+
+          <h3>Single PSD</h3>
+
+          <p>Fully layered Photoshop template with smart-object slots for badges and photography, editable live text, and organised, colour-coded layers. Badge-free by design, so there is nothing you cannot legally publish. Includes a README and setup notes.</p>
+
+          <span class="shop-price">£100</span>
+
+          <a class="btn btn-ink lemonsqueezy-button"
+             href="https://socialnovastore.lemonsqueezy.com/checkout/buy/876ccc2f-85b9-4ac6-b545-80713d6eead5?embed=1">Buy now</a>
+        </article>
+
       </div>
     </div>
   </section>
