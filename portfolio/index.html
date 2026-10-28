@@ -356,6 +356,14 @@ const fmt = n => {
   return String(n);
 };
 const num = v => parseInt(String(v).replace(/[^0-9]/g,''),10) || 0;
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function safeURL(value){
+  try {
+    const url = new URL(value, location.href);
+    return ['http:', 'https:'].includes(url.protocol) ? value : '#';
+  } catch { return '#'; }
+}
 
 /* CSV parser — handles quoted fields, commas inside quotes, CR LF */
 function parseCSV(text){
@@ -440,7 +448,7 @@ function renderCards(data, container){
     const initials = t.template.split(' ').map(w=>w[0]).join('').slice(0,3);
     const postsHtml = t.posts.map(p =>
       "<div class='post'>" +
-        "<a href='" + p.url + "' target='_blank' rel='noopener'>" + p.title + "</a>" +
+        "<a href='" + escapeHTML(safeURL(p.url)) + "' target='_blank' rel='noopener'>" + escapeHTML(p.title) + "</a>" +
         "<div class='stats'>" +
           "<span class='stat'>" + ICONS.heart + fmt(p.reactions) + "</span>" +
           "<span class='stat'>" + ICONS.comment + fmt(p.comments) + "</span>" +
@@ -451,11 +459,11 @@ function renderCards(data, container){
 
     card.innerHTML =
       "<div class='poster'>" +
-        "<div class='fallback'>" + initials + "</div>" +
-        (t.image ? "<img src='" + t.image + "' alt='" + t.template + " example' onerror=\"this.remove()\" loading='lazy'>" : "") +
+        "<div class='fallback'>" + escapeHTML(initials) + "</div>" +
+        (t.image ? "<img src='" + escapeHTML(safeURL(t.image)) + "' alt='" + escapeHTML(t.template) + " example' onerror=\"this.remove()\" loading='lazy'>" : "") +
       "</div>" +
       "<div class='card-body'>" +
-        "<div class='tname'>" + t.template + "</div>" +
+        "<div class='tname'>" + escapeHTML(t.template) + "</div>" +
         "<div class='posts'>" + postsHtml + "</div>" +
       "</div>";
 
@@ -509,20 +517,20 @@ function renderTools(data){
       "</svg></span>";
     const media = yt
       ? "<iframe src='https://www.youtube-nocookie.com/embed/" + yt + "' " +
-        "title='" + t.tool + "' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' " +
+        "title='" + escapeHTML(t.tool) + "' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' " +
         "allowfullscreen loading='lazy'></iframe>"
-      : "<video src='" + t.video + "' autoplay muted loop playsinline preload='metadata'></video>" + expandIcon;
+      : "<video src='" + escapeHTML(safeURL(t.video)) + "' autoplay muted loop playsinline preload='metadata'></video>" + expandIcon;
 
     card.innerHTML =
       "<div class='tool-media'>" + media + "</div>" +
       "<div class='tool-body'>" +
-        "<div class='tname'>" + t.tool + "</div>" +
-        (t.notes ? "<p class='tool-notes'>" + t.notes + "</p>" : "") +
+        "<div class='tname'>" + escapeHTML(t.tool) + "</div>" +
+        (t.notes ? "<p class='tool-notes'>" + escapeHTML(t.notes) + "</p>" : "") +
       "</div>";
 
     if (!yt){
       card.querySelector('.tool-media').addEventListener('click', () =>
-        openLightbox(t.video, t.tool, card.querySelector('video')));
+        openLightbox(safeURL(t.video), t.tool, card.querySelector('video')));
     }
 
     toolGrid.appendChild(card);
