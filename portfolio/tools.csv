@@ -1,0 +1,13 @@
+TOOL,VIDEO,NOTES
+XI Builder,videos/xibuilder.mp4,Builds out an XI using automatic player selection
+Badge Dropper,videos/badgedropper.mp4,Automatically drops in club badges
+Flag Dropper,videos/flagdropper.mp4,Automatically drops in national team flags
+Tweet Filler,videos/tweetfiller.mp4,Automatically creates tweet graphics
+Font Weighter,videos/fontweighter.mp4,Automatically changes font weight to custom values
+Auto-Number ,videos/number.mp4,Automatically changes text layers to numbers
+Text Replacer,videos/textreplacer.mp4,Automatically replaces text layers
+Shape Inserter,videos/shapeinserter.mp4,Automatically inserts distributed shapes
+Image Replacer,videos/imagereplacer.mp4,Automatically replaces images in template
+Gridlines,videos/gridlines.mp4,Automatically adds gridlines into canvas
+Layer Distributor,videos/distributor.mp4,Automatically distributes selected layers perfectly 
+Layer Duplicator,videos/duplicator.mp4,Duplicates layer/shape/group making all layers unique for template building

@@ -225,6 +225,10 @@ a{ color:inherit; }
 .head-nav a:hover{ opacity:1; }
 .head-nav a.is-cta{ opacity:1; background:var(--paper); color:var(--ink); padding:9px 16px; font-weight:600; }
 @media (max-width:760px){ .head-nav .hide-sm{ display:none; } }
+@media (max-width:480px){
+  .head-nav a.is-cta{ display:none; }
+  .head-mark b{ white-space:nowrap; }
+}
 
 /* ---------- hero — V1's stacked layout, grid backdrop ---------- */
 
@@ -655,6 +659,7 @@ a{ color:inherit; }
     <nav class="head-nav" aria-label="Primary">
       <a class="hide-sm" href="#services">Services</a>
       <a class="hide-sm" href="#shop">Shop</a>
+      <a href="/portfolio/">Portfolio</a>
       <a class="hide-sm" href="#process">Process</a>
       <a class="hide-sm" href="#about">About</a>
       <a class="is-cta" href="#contact">Start a project</a>
@@ -675,6 +680,7 @@ a{ color:inherit; }
         <p>Social Nova is a one-person studio for social media, content and design. You get the person who has actually run the channels — not an account manager passing your brief down a chain.</p>
         <a class="btn btn-solid" href="#contact">Start a project</a>
         <a class="btn btn-line" href="#services">What I do</a>
+        <a class="btn btn-line" href="/portfolio/">View portfolio</a>
       </div>
     </div>
   </section>
